@@ -18,9 +18,9 @@ public class HbdmClient {
 		/**
 		 * get请求无需发送身份认证,通常用于获取行情，市场深度等公共信息
 		 */
-		String api_key = "4f773f2f-8852df74-8a4a9eba-9e117"; // huobi申请的apiKey
-		String secret_key = "ee10e2d0-3355dad2-274b46e2-6c2e1"; // huobi申请的secretKey
-		String url_prex = "http://api.hbdm.com";
+		String api_key = ""; // huobi申请的apiKey
+		String secret_key = ""; // huobi申请的secretKey
+		String url_prex = "";//API接口地址
 		IHbdmRestApi futureGetV1 = new HbdmRestApiV1(url_prex);
 		IHbdmRestApi futurePostV1 = new HbdmRestApiV1(url_prex, api_key, secret_key);
 
