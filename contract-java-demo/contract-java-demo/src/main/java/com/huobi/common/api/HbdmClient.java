@@ -20,7 +20,7 @@ public class HbdmClient {
 		 */
 		String api_key = ""; // huobi申请的apiKey
 		String secret_key = ""; // huobi申请的secretKey
-		String url_prex = "";//API接口地址
+		String url_prex = "";//API接口地址：国内：api.dm.huobi.br.com  国外：api.dm.hbg.com
 		IHbdmRestApi futureGetV1 = new HbdmRestApiV1(url_prex);
 		IHbdmRestApi futurePostV1 = new HbdmRestApiV1(url_prex, api_key, secret_key);
 
