@@ -251,6 +251,7 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 	public String futureContractBatchorder(List<Order> orders) throws HttpException, IOException {
 		Map<String, String> params = new HashMap<>();
 		params.put("orders_data", JSON.toJSONString(orders));
+		System.out.println(JSON.toJSONString(orders));
 		String res = HbdmHttpClient.getInstance().call(api_key, secret_key, "POST", url_prex + HUOBI_FUTURE_CONTRACT_BATCHORDER,
 				params, new HashMap<>());
 		return res;
@@ -295,7 +296,7 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 			params.put("symbol", symbol);
 		}
 		String res = HbdmHttpClient.getInstance().call(api_key, secret_key, "POST",
-				url_prex + HUOBI_FUTURE_ORDER_CANCEL, params, new HashMap<>());
+				url_prex + HUOBI_FUTURE_ORDER_INFO, params, new HashMap<>());
 		return res;
 	}
 
@@ -315,7 +316,7 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 			params.put("page_size", pageSize);
 		}
 		if (!StringUtils.isEmpty(createdAt)) {
-			params.put("createdAt", createdAt);
+			params.put("created_at", createdAt);
 		}
 		String res = HbdmHttpClient.getInstance().call(api_key, secret_key, "POST",
 				url_prex + HUOBI_FUTURE_CONTRACT_ORDER_DETAIL, params, new HashMap<>());
