@@ -256,7 +256,7 @@ public interface IHbdmRestApi {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	public String futureContractOrderDetail(String symbol, String orderId, String pageIndex, String pageSize,String createdAt)
+	public String futureContractOrderDetail(String symbol, String orderId, String pageIndex, String pageSize,String createdAt,String orderType)
 			throws HttpException, IOException;
 
 	/**
