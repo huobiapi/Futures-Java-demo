@@ -1,109 +1,79 @@
-package com.huobi.common.api;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.huobi.common.request.Order;
-
-public class HbdmClient {
-	private static Logger logger = LoggerFactory.getLogger(HbdmClient.class);
-
-	public static void main(String[] args) throws HttpException, IOException {
-
-		/**
-		 * get请求无需发送身份认证,通常用于获取行情，市场深度等公共信息
-		 */
-		String api_key = ""; // huobi申请的apiKey
-		String secret_key = ""; // huobi申请的secretKey
-		String url_prex = "";//API接口地址：http://api.hbdm.com
-		IHbdmRestApi futureGetV1 = new HbdmRestApiV1(url_prex);
-		IHbdmRestApi futurePostV1 = new HbdmRestApiV1(url_prex, api_key, secret_key);
-
-		// 获取合约信息
-		String contractInfo = futureGetV1.futureContractInfo("BTC", "", "");
-		logger.info("获取合约信息" + contractInfo);
-
-		// 获取合约指数信息
-		String contractindex = futureGetV1.futureContractIndex("BTC");
-		logger.info("获取合约指数信息" + contractindex);
-
-		// 获取合约最高限价和最低限价
-		String pricelimit = futureGetV1.futurePriceLimit("BTC", "", "");
-		logger.info("获取合约最高限价和最低限价" + pricelimit);
-		// 获取当前可用合约总持仓量
-		String openInterest = futureGetV1.futureOpenInterest("BTC", "", "");
-		logger.info("获取当前可用合约总持仓量" + openInterest);
-
-		// 获取行情深度数据
-		String marketDepth = futureGetV1.futureMarketDepth("BTC_CW", "step0");
-		logger.info("获取行情深度数据" + marketDepth);
-
-		// 获取K线数据
-		String historyKline = futureGetV1.futureMarketHistoryKline("BTC_CW", "15min","100");
-		logger.info("获取K线数据" + historyKline);
-
-		// 获取聚合行情
-		String merged = futureGetV1.futureMarketDetailMerged("BTC_CW");
-		logger.info("获取聚合行情" + merged);
-
-		// 获取市场最近成交记录
-		String trade = futurePostV1.futureMarketDetailTrade("BTC_CW", "10");
-		logger.info("获取市场最近成交记录" + trade);
-
-		// 批量获取最近的交易记录
-		String historTrade = futurePostV1.futureMarketHistoryTrade("BTC_CW", "10");
-		logger.info("批量获取最近的交易记录" + historTrade);
-		// 获取用户账户信息
-		String accountInfo = futurePostV1.futureContractAccountInfo("BTC");
-		logger.info("获取用户账户信息" + accountInfo);
-
-		// 获取用户持仓信息
-		String positionInfo = futurePostV1.futureContractPositionInfo("BTC");
-		logger.info("获取用户持仓信息" + positionInfo);
-
-		// 合约下单
-		String contractOrder = futurePostV1.futureContractOrder("BTC", "this_week", "BTC181102", "", "6188", "12",
-				"buy", "open", "10", "limit");
-
-		logger.info("合约下单返回" + contractOrder);
-		
-		//批量下单
-		List<Order> orders = new ArrayList<>();
-		Order order1 = new Order("BTC", "this_week", "BTC181102", "10", "6400", "1","buy", "open", "10", "limit");
-		Order order2 = new Order("BTC", "this_week", "BTC181102", "12", "6398", "2","buy", "open", "10", "limit");
-		orders.add(order1);
-		orders.add(order2);
-		String futureContractBatchOorder = futurePostV1.futureContractBatchorder(orders);
-		logger.info("批量下单返回" + futureContractBatchOorder);
-
-		// 合约取消订单
-		String contractcancel = futurePostV1.futureContractCancel("123556", "","BTC");
-		logger.info("合约取消订单" + contractcancel);
-
-		// 合约全部撤单
-		//String contractCancelall = futurePostV1.futureContractCancelall("BTC");
-		//logger.info("合约全部撤单" + contractCancelall);
-
-		// 获取合约订单信息
-		String contractOrderInfo = futurePostV1.futureContractOrderInfo("4", "","BTC");
-		logger.info("合约取消订单" + contractOrderInfo);
-
-		// 获取订单明细信息
-		String detail = futurePostV1.futureContractOrderDetail("BTC", "123556", "1", "100","1539345271124");
-		logger.info("获取订单明细信息" + detail);
-
-		// 获取合约当前未成交委托
-		String openorders = futurePostV1.futureContractOpenorders("BTC", "1", "100");
-		logger.info("获取订单明细信息" + openorders);
-
-		// 获取合约历史委托
-		String orderDetail = futurePostV1.futureContractHisorders("BTC", "0", "1", "0", "90", "1", "20");
-		logger.info("获取订单明细信息" + orderDetail);
-	}
-
-}
+17:22:36.095 [main] INFO com.huobi.common.api.HbdmClient - 获取合约信息{"status":"ok","data":[{"symbol":"BTC","contract_code":"BTC181116","contract_type":"this_week","contract_size":100.000000000000000000,"price_tick":0.010000000000000000,"delivery_date":"20181116","create_date":"20181109","contract_status":1},{"symbol":"BTC","contract_code":"BTC181123","contract_type":"next_week","contract_size":100.000000000000000000,"price_tick":0.010000000000000000,"delivery_date":"20181123","create_date":"20181109","contract_status":1},{"symbol":"BTC","contract_code":"BTC181228","contract_type":"quarter","contract_size":100.000000000000000000,"price_tick":0.010000000000000000,"delivery_date":"20181228","create_date":"20181109","contract_status":1}],"ts":1542014556054}
+17:22:36.656 [main] INFO com.huobi.common.api.HbdmClient - 获取合约指数信息{"status":"ok","data":[{"symbol":"BTC","index_price":6375.3620,"index_ts":1542014550020}],"ts":1542014556622}
+17:22:37.218 [main] INFO com.huobi.common.api.HbdmClient - 获取合约最高限价和最低限价{"status":"ok","data":[{"symbol":"BTC","contract_code":"BTC181228","contract_type":"quarter","high_limit":6537.220000000000000000000000000000000000,"low_limit":6154.560000000000000000000000000000000000},{"symbol":"BTC","contract_code":"BTC181116","contract_type":"this_week","high_limit":6511.520000000000000000000000000000000000,"low_limit":6224.260000000000000000000000000000000000},{"symbol":"BTC","contract_code":"BTC181123","contract_type":"next_week","high_limit":6530.030000000000000000000000000000000000,"low_limit":6229.740000000000000000000000000000000000}],"ts":1542014557183}
+17:22:37.775 [main] INFO com.huobi.common.api.HbdmClient - 获取当前可用合约总持仓量{"status":"ok","data":[{"volume":67.000000000000000000,"amount":1.050629358347720683,"symbol":"BTC","contract_type":"quarter","contract_code":"BTC181228"},{"volume":47.000000000000000000,"amount":0.736599761467055967,"symbol":"BTC","contract_type":"this_week","contract_code":"BTC181116"},{"volume":21.000000000000000000,"amount":0.327779806890868054,"symbol":"BTC","contract_type":"next_week","contract_code":"BTC181123"}],"ts":1542014557738}
+17:22:38.326 [main] INFO com.huobi.common.api.HbdmClient - 获取行情深度数据{"ch":"market.BTC_CW.depth.step0","status":"ok","tick":{"asks":[[6392,2],[6400,30],[6410,1],[6419.16,6],[6430.44,2],[6431.08,5],[6431.4,1],[6432.36,2],[6433,3],[6433.64,3],[6434.6,5],[6435.24,5],[6435.56,3],[6436.2,3],[6436.52,1],[6437.48,1],[6438.12,5],[6438.44,5],[6438.76,1],[6439.4,2],[6447.4,5],[6457.32,5],[6457.64,5],[6458.28,5],[6462.12,5],[6467.24,5],[6470,10],[6472.04,4],[6500,1],[6666.66,1],[6999,34],[9000,1]],"bids":[[6376,14],[6375,30],[6371.07,2],[6371.06,4],[6367.7,5],[6367.06,2],[6365.78,5],[6365.46,5],[6364.82,1],[6364.18,1],[6363.86,5],[6363.54,2],[6363.22,1],[6362.9,4],[6362.58,2],[6362.26,1],[6360.34,5],[6358.1,5],[6355.54,5],[6350.1,1],[6350,24],[6349.14,5],[6348.5,1],[6340.82,1],[6325.78,5],[6321.3,1],[6122,1],[6000,15],[5000,1],[3000,1]],"ch":"market.BTC_CW.depth.step0","id":1542014557,"mrid":1622614,"ts":1542014557514,"version":1542014557},"ts":1542014558293}
+17:22:38.877 [main] INFO com.huobi.common.api.HbdmClient - 获取K线数据{"ch":"market.BTC_CW.kline.15min","data":[{"amount":4.5784438451729165327087872585498517062,"close":6370.61,"count":42,"high":6402.19,"id":1541925000,"low":6363.29,"open":6393.66,"vol":292},{"amount":2.1962598469277404118612390767356334316,"close":6369.33,"count":25,"high":6400.29,"id":1541925900,"low":6349.77,"open":6393.31,"vol":140},{"amount":3.7946771226765148862357651844891074784,"close":6386.65,"count":41,"high":6402.69,"id":1541926800,"low":6356.03,"open":6361.85,"vol":242},{"amount":0,"close":6386.65,"count":0,"high":6386.65,"id":1541927700,"low":6386.65,"open":6386.65,"vol":0},{"amount":2.0089151564882391831929704562445667456,"close":6374.33,"count":22,"high":6393.35,"id":1541928600,"low":6351.37,"open":6381.71,"vol":128},{"amount":4.0184144829346430763597696548219421266,"close":6373.92,"count":41,"high":6394.68,"id":1541929500,"low":6344.75,"open":6357.43,"vol":256},{"amount":4.4637790638185082552034349261075979432,"close":6373.76,"count":43,"high":6383.77,"id":1541930400,"low":6334,"open":6364.11,"vol":284},{"amount":3.6470795819688816961038124860963537954,"close":6372.66,"count":42,"high":6378.02,"id":1541931300,"low":6338.61,"open":6343.28,"vol":232},{"amount":3.9263080648551856933631501092169318346,"close":6365.57,"count":42,"high":6390.56,"id":1541932200,"low":6344.25,"open":6379.46,"vol":250},{"amount":4.3685854338948610069876336205705896526,"close":6364.1,"count":42,"high":6382.85,"id":1541933100,"low":6348.05,"open":6350.68,"vol":278},{"amount":3.018209698229591193141172394987027045,"close":6365.33,"count":41,"high":6377.6,"id":1541934000,"low":6338.06,"open":6364.48,"vol":192},{"amount":3.4781957021711524673025399789169819082,"close":6370.22,"count":35,"high":6499.7,"id":1541934900,"low":6313.72,"open":6333.74,"vol":222},{"amount":0.9111974185022143072732241608534625392,"close":6358.86,"count":11,"high":6381.03,"id":1541935800,"low":6352.14,"open":6381.03,"vol":58},{"amount":3.6840461786971538722909768507411968288,"close":6361.47,"count":41,"high":6377.04,"id":1541936700,"low":6323.67,"open":6355.1,"vol":234},{"amount":3.7433781888025574004845121461094287356,"close":6348.16,"count":41,"high":6382.85,"id":1541937600,"low":6333.21,"open":6346.79,"vol":238},{"amount":4.2132279043252123086522730956667836348,"close":6375.16,"count":42,"high":6379.15,"id":1541938500,"low":6332.6,"open":6352.33,"vol":268},{"amount":3.8973115018195781179076035268706917208,"close":6359.04,"count":43,"high":6386.29,"id":1541939400,"low":6346.3,"open":6358.35,"vol":248},{"amount":3.4270734156989428354641009005556820956,"close":6360.79,"count":41,"high":6385.53,"id":1541940300,"low":6339.21,"open":6355.87,"vol":218},{"amount":3.7094344681837167263177744892200385142,"close":6369.9,"count":40,"high":6387.21,"id":1541941200,"low":6336.4,"open":6368.03,"vol":236},{"amount":3.7406696325763331496771231611480950938,"close":6340.68,"count":43,"high":6382.19,"id":1541942100,"low":6340.68,"open":6345.62,"vol":238},{"amount":0.9772414389405252932217503393489623778,"close":6000,"count":17,"high":6500,"id":1541943000,"low":6000,"open":6350.57,"vol":62},{"amount":1.7508108968318709595645872852278674772,"close":6322.9,"count":22,"high":6326.6,"id":1541943900,"low":6120.13,"open":6120.13,"vol":110},{"amount":3.180544021090967575067929745681334006,"close":6378.27,"count":44,"high":6378.27,"id":1541944800,"low":6322.43,"open":6352.25,"vol":202},{"amount":3.7481412380442989286349205806006400706,"close":6347.59,"count":40,"high":6365.03,"id":1541945700,"low":6321.63,"open":6355.78,"vol":238},{"amount":3.6198398534370531769916079279679410104,"close":6361.22,"count":42,"high":6380.3,"id":1541946600,"low":6330.5,"open":6337.06,"vol":230},{"amount":3.1463965390366797207064308182834990664,"close":6361.93,"count":41,"high":6373.4,"id":1541947500,"low":6338.95,"open":6342,"vol":200},{"amount":3.4933464250995590038719009077704198402,"close":6351.97,"count":42,"high":6381.81,"id":1541948400,"low":6338.64,"open":6360.26,"vol":222},{"amount":4.2825124207917200206964844262419850906,"close":6352.25,"count":41,"high":6376.41,"id":1541949300,"low":6317.47,"open":6356.6,"vol":272},{"amount":3.9177175536814396466449510813207384022,"close":6304.29,"count":41,"high":6362.88,"id":1541950200,"low":6290.13,"open":6357.83,"vol":248},{"amount":3.6109293469388865659038958528684976166,"close":6322.21,"count":40,"high":6342.98,"id":1541951100,"low":6293.58,"open":6323.03,"vol":228},{"amount":4.3031215519407285671412551439622735466,"close":6331.23,"count":43,"high":6341.85,"id":1541952000,"low":6296.22,"open":6326.24,"vol":272},{"amount":3.5709618825202429849196825200353752458,"close":6321.88,"count":41,"high":6356.24,"id":1541952900,"low":6301.12,"open":6326.6,"vol":226},{"amount":3.9833716082230290788213100741489272602,"close":6310.95,"count":42,"high":6346.18,"id":1541953800,"low":6305.06,"open":6321.99,"vol":252},{"amount":3.351384120950998168441547182867788494,"close":6305.37,"count":38,"high":6344.72,"id":1541954700,"low":6305.37,"open":6324.47,"vol":212},{"amount":3.4435189211753932676335225330461641398,"close":6307.14,"count":35,"high":6348.35,"id":1541955600,"low":6307.14,"open":6324.72,"vol":218},{"amount":3.3519657787021656769759415123671388966,"close":6351.71,"count":41,"high":6353.49,"id":1541956500,"low":6309.28,"open":6339.63,"vol":212},{"amount":4.133355933954669085995959965827024898,"close":6368.47,"count":40,"high":6368.47,"id":1541957400,"low":6317.93,"open":6325.99,"vol":262},{"amount":3.5953044005861301462534019960138189398,"close":6322.87,"count":42,"high":6365.36,"id":1541958300,"low":6309.15,"open":6333.3,"vol":228},{"amount":4.3835031945384392417701624630107946424,"close":6354.21,"count":42,"high":6365.19,"id":1541959200,"low":6315.88,"open":6349.88,"vol":278},{"amount":3.3731110794242540208910525767579897582,"close":6321.81,"count":40,"high":6365.14,"id":1541960100,"low":6321.03,"open":6321.03,"vol":214},{"amount":4.004946470316394174157074757556870185,"close":6339.49,"count":42,"high":6362.63,"id":1541961000,"low":6320.77,"open":6345.22,"vol":254},{"amount":3.9691501899409663295298493524073142312,"close":6344.34,"count":42,"high":6376.76,"id":1541961900,"low":6321.29,"open":6352.76,"vol":252},{"amount":3.9300960073001343261193721650142896028,"close":6383.15,"count":42,"high":6383.15,"id":1541962800,"low":6340.63,"open":6365.55,"vol":250},{"amount":3.454487385281954377035931622601669621,"close":6379.53,"count":41,"high":6393.38,"id":1541963700,"low":6343.79,"open":6369.92,"vol":220},{"amount":3.8623553127532594092214614569870555852,"close":6357.21,"count":41,"high":6387.71,"id":1541964600,"low":6336.9,"open":6384.38,"vol":246},{"amount":3.4585493578033389843628747277639186536,"close":6369.74,"count":42,"high":6386.59,"id":1541965500,"low":6335.7,"open":6364.84,"vol":220},{"amount":4.0524129515737777538727223985311097938,"close":6373.02,"count":41,"high":6382.64,"id":1541966400,"low":6340.49,"open":6365.33,"vol":258},{"amount":4.3675222161915978445244030095857824074,"close":6355.37,"count":41,"high":6396.37,"id":1541967300,"low":6342.39,"open":6365.97,"vol":278},{"amount":3.5207360882066059396475291752773456304,"close":6346.38,"count":40,"high":6377.62,"id":1541968200,"low":6333.14,"open":6368.26,"vol":224},{"amount":3.7714641060476613220305241245486283042,"close":6377.08,"count":41,"high":6390.89,"id":1541969100,"low":6337,"open":6388.87,"vol":240},{"amount":4.0566947488155654769609732639221244946,"close":6354.24,"count":43,"high":6380.33,"id":1541970000,"low":6337.24,"open":6375.14,"vol":258},{"amount":3.4579488953982781509737894817652901012,"close":6348.08,"count":41,"high":6389.15,"id":1541970900,"low":6337.89,"open":6366.92,"vol":220},{"amount":3.709749208795333424126995689560024984,"close":6355.92,"count":42,"high":6385.21,"id":1541971800,"low":6339.03,"open":6352.03,"vol":236},{"amount":3.7120038707686382393565991211306641378,"close":6348.82,"count":41,"high":6390.1,"id":1541972700,"low":6324.96,"open":6348.01,"vol":236},{"amount":4.250565228711456804262543052842199049,"close":6341.76,"count":43,"high":6381.79,"id":1541973600,"low":6330.44,"open":6349.55,"vol":270},{"amount":4.3140766684078557132549314886908952116,"close":6360.88,"count":42,"high":6369.31,"id":1541974500,"low":6329.66,"open":6350.21,"vol":274},{"amount":3.8422920087204824210878998263321729836,"close":6342.88,"count":40,"high":6369.4,"id":1541975400,"low":6325.91,"open":6346.1,"vol":244},{"amount":3.3741762120493319835810330272688128182,"close":6331.86,"count":40,"high":6366.48,"id":1541976300,"low":6319.78,"open":6338.66,"vol":214},{"amount":3.8476566197885215453757779935903766112,"close":6356.8,"count":41,"high":6365.69,"id":1541977200,"low":6323.97,"open":6342.08,"vol":244},{"amount":3.4321244067667634613855573980978008514,"close":6373.3,"count":42,"high":6375.04,"id":1541978100,"low":6333.55,"open":6335.01,"vol":218},{"amount":3.7129191758903095755205717766659145488,"close":6363.81,"count":39,"high":6372.06,"id":1541979000,"low":6330.57,"open":6360.29,"vol":236},{"amount":3.6958133561548331340241077863834779046,"close":6399.18,"count":40,"high":6414.35,"id":1541979900,"low":6352.57,"open":6378.81,"vol":236},{"amount":4.2758256726627075856072408260620702142,"close":6394.59,"count":42,"high":6428.58,"id":1541980800,"low":6385.91,"open":6391.98,"vol":274},{"amount":3.7491332315025410339173523895964624644,"close":6406.43,"count":41,"high":6416.74,"id":1541981700,"low":6379.84,"open":6410.12,"vol":240},{"amount":4.5914600175401027637195671483440532242,"close":6409.29,"count":43,"high":6424.31,"id":1541982600,"low":6377.55,"open":6408.86,"vol":294},{"amount":3.812392623150823942703627611994378686,"close":6393.48,"count":42,"high":6428.51,"id":1541983500,"low":6373.26,"open":6428.51,"vol":244},{"amount":4.2192973697348650781761950631366589222,"close":6374.62,"count":42,"high":6429.15,"id":1541984400,"low":6374.62,"open":6411.29,"vol":270},{"amount":3.784224856449986882074567467144480525,"close":6406.88,"count":39,"high":6412.93,"id":1541985300,"low":6367.02,"open":6393.47,"vol":242},{"amount":4.2822245522937582236565804412017176712,"close":6397.36,"count":42,"high":6427.87,"id":1541986200,"low":6372.27,"open":6384.26,"vol":274},{"amount":3.9737077828976803965235293960257116716,"close":6389.26,"count":43,"high":6408.5,"id":1541987100,"low":6375.16,"open":6395.74,"vol":254},{"amount":3.5059732044330027218840782210661415928,"close":6385.32,"count":42,"high":6418.84,"id":1541988000,"low":6359.07,"open":6401.69,"vol":224},{"amount":4.2245511862513467924451365982603612556,"close":6393.05,"count":40,"high":6411.29,"id":1541988900,"low":6375.32,"open":6396.84,"vol":270},{"amount":3.8767227421039601883426296233298143378,"close":6413.19,"count":42,"high":6415.62,"id":1541989800,"low":6382.58,"open":6393.7,"vol":248},{"amount":3.9667793903555967333675843935669101906,"close":6423.18,"count":41,"high":6423.94,"id":1541990700,"low":6383.16,"open":6414.57,"vol":254},{"amount":3.9000990890395422689561472410577594466,"close":6418.62,"count":42,"high":6430.11,"id":1541991600,"low":6387.94,"open":6403.7,"vol":250},{"amount":4.2416132034624562142927729303733013272,"close":6415.46,"count":42,"high":6435.01,"id":1541992500,"low":6395.15,"open":6412.9,"vol":272},{"amount":3.9046513104051949373187334545784574304,"close":6417.55,"count":43,"high":6419.18,"id":1541993400,"low":6380.47,"open":6409.54,"vol":250},{"amount":3.8462144269750089383409903401808188076,"close":6394.27,"count":41,"high":6421,"id":1541994300,"low":6371.26,"open":6395.6,"vol":246},{"amount":3.9715837757233672527269937077619180484,"close":6388.34,"count":41,"high":6423.54,"id":1541995200,"low":6376.56,"open":6397.32,"vol":254},{"amount":4.0052715416268859014774924619379864914,"close":6370.7,"count":41,"high":6414.94,"id":1541996100,"low":6369.33,"open":6403.21,"vol":256},{"amount":4.4100286175726965592869803594050687234,"close":6387.5,"count":44,"high":6416.87,"id":1541997000,"low":6366.75,"open":6387.99,"vol":282},{"amount":4.3507084296482816461406433482275699134,"close":6384.15,"count":42,"high":6409.95,"id":1541997900,"low":6366.03,"open":6374.66,"vol":278},{"amount":3.1892667824539961328856956384475821672,"close":6386.18,"count":38,"high":6411.73,"id":1541998800,"low":6364.32,"open":6394.46,"vol":204},{"amount":3.4087140389641403763281037983603823092,"close":6390.28,"count":42,"high":6414.4,"id":1541999700,"low":6370.17,"open":6408.3,"vol":218},{"amount":4.0361319173179076716508800113136777294,"close":6382.4,"count":42,"high":6416.11,"id":1542000600,"low":6369.39,"open":6393.68,"vol":258},{"amount":3.814047300571465638519771785317970498,"close":6399.5,"count":41,"high":6420.66,"id":1542001500,"low":6368.78,"open":6373.62,"vol":244},{"amount":3.5949448661181990525518720199594472754,"close":6406.71,"count":41,"high":6413.29,"id":1542002400,"low":6374.34,"open":6409.92,"vol":230},{"amount":4.7593340917573486136067710247358611312,"close":6423.34,"count":50,"high":6424.05,"id":1542003300,"low":6366.82,"open":6399.77,"vol":304},{"amount":4.0048141313690877886742609536983980148,"close":6411.5,"count":40,"high":6412.14,"id":1542004200,"low":6371.07,"open":6398.15,"vol":256},{"amount":3.5975342387551976244904487402179547614,"close":6388.26,"count":42,"high":6410.38,"id":1542005100,"low":6371.06,"open":6393.97,"vol":230},{"amount":4.4121547193012577324478397588263681222,"close":6378.22,"count":42,"high":6402.17,"id":1542006000,"low":6378.22,"open":6390.89,"vol":282},{"amount":4.1927114790409520216554942552487488882,"close":6388.33,"count":41,"high":6402.39,"id":1542006900,"low":6377.59,"open":6391.18,"vol":268},{"amount":4.0379647397754185390555566688217187166,"close":6406.25,"count":40,"high":6406.25,"id":1542007800,"low":6371.08,"open":6393.08,"vol":258},{"amount":3.693524964640961827355413452642894239,"close":6396.21,"count":42,"high":6398.15,"id":1542008700,"low":6376.72,"open":6389.23,"vol":236},{"amount":4.5393150306531718169617099844200909222,"close":6387.29,"count":43,"high":6397.53,"id":1542009600,"low":6380.88,"open":6393.43,"vol":290},{"amount":3.4450779876410727897412202266536237672,"close":6384.26,"count":42,"high":6398.25,"id":1542010500,"low":6376.01,"open":6392.69,"vol":220},{"amount":3.9771565082502278330480345448500582702,"close":6392.42,"count":41,"high":6394.59,"id":1542011400,"low":6378.95,"open":6387.81,"vol":254},{"amount":3.162690822712262473851488196679055444,"close":6387.72,"count":40,"high":6394.06,"id":1542012300,"low":6378.61,"open":6390.78,"vol":202},{"amount":3.7591710361048136990931262915459482908,"close":6380.94,"count":41,"high":6388.82,"id":1542013200,"low":6377.42,"open":6384.22,"vol":240},{"amount":1.7230156399636655670227255177217094088,"close":6380.67,"count":20,"high":6388,"id":1542014100,"low":6377.95,"open":6384.32,"vol":110}],"status":"ok","ts":1542014558833}
+17:22:39.414 [main] INFO com.huobi.common.api.HbdmClient - 获取聚合行情{"ch":"market.BTC_CW.detail.merged","status":"ok","tick":{"amount":"357.5106779037798360701821454807134196038","ask":[6392,2],"bid":[6376,14],"close":"6380.67","count":3854,"high":"6435.01","id":1542014558,"low":"6296.22","open":"6326.24","ts":1542014559383,"vol":"22774"},"ts":1542014559383}
+17:22:39.972 [main] INFO com.huobi.common.api.HbdmClient - 获取市场最近成交记录{"ch":"market.BTC_CW.trade.detail","data":[{"data":[{"amount":6,"direction":"sell","id":1620806835840,"price":6388,"ts":1542014346127}],"id":1620806,"ts":1542014346127},{"data":[{"amount":6,"direction":"sell","id":1621264836081,"price":6386.99,"ts":1542014396034}],"id":1621264,"ts":1542014396034},{"data":[{"amount":4,"direction":"buy","id":1621458836181,"price":6387.88,"ts":1542014416633}],"id":1621458,"ts":1542014416633},{"data":[{"amount":4,"direction":"buy","id":1621631836262,"price":6378.89,"ts":1542014435371}],"id":1621631,"ts":1542014435371},{"data":[{"amount":4,"direction":"sell","id":1621766836337,"price":6383.74,"ts":1542014452971}],"id":1621766,"ts":1542014452971},{"data":[{"amount":2,"direction":"buy","id":1621976836435,"price":6387.68,"ts":1542014475741}],"id":1621976,"ts":1542014475741},{"data":[{"amount":8,"direction":"buy","id":1622102836509,"price":6386.54,"ts":1542014493444}],"id":1622102,"ts":1542014493444},{"data":[{"amount":2,"direction":"buy","id":1622328836614,"price":6382.92,"ts":1542014517082}],"id":1622328,"ts":1542014517082},{"data":[{"amount":2,"direction":"buy","id":1622433836680,"price":6380.66,"ts":1542014536683}],"id":1622433,"ts":1542014536683},{"data":[{"amount":6,"direction":"sell","id":1622614836773,"price":6380.67,"ts":1542014555245}],"id":1622614,"ts":1542014555245}],"status":"ok","ts":1542014559937}
+17:22:40.518 [main] INFO com.huobi.common.api.HbdmClient - 批量获取最近的交易记录{"ch":"market.BTC_CW.trade.detail","data":[{"data":[{"amount":6,"direction":"sell","id":1620806835840,"price":6388,"ts":1542014346127}],"id":1620806,"ts":1542014346127},{"data":[{"amount":6,"direction":"sell","id":1621264836081,"price":6386.99,"ts":1542014396034}],"id":1621264,"ts":1542014396034},{"data":[{"amount":4,"direction":"buy","id":1621458836181,"price":6387.88,"ts":1542014416633}],"id":1621458,"ts":1542014416633},{"data":[{"amount":4,"direction":"buy","id":1621631836262,"price":6378.89,"ts":1542014435371}],"id":1621631,"ts":1542014435371},{"data":[{"amount":4,"direction":"sell","id":1621766836337,"price":6383.74,"ts":1542014452971}],"id":1621766,"ts":1542014452971},{"data":[{"amount":2,"direction":"buy","id":1621976836435,"price":6387.68,"ts":1542014475741}],"id":1621976,"ts":1542014475741},{"data":[{"amount":8,"direction":"buy","id":1622102836509,"price":6386.54,"ts":1542014493444}],"id":1622102,"ts":1542014493444},{"data":[{"amount":2,"direction":"buy","id":1622328836614,"price":6382.92,"ts":1542014517082}],"id":1622328,"ts":1542014517082},{"data":[{"amount":2,"direction":"buy","id":1622433836680,"price":6380.66,"ts":1542014536683}],"id":1622433,"ts":1542014536683},{"data":[{"amount":6,"direction":"sell","id":1622614836773,"price":6380.67,"ts":1542014555245}],"id":1622614,"ts":1542014555245}],"status":"ok","ts":1542014560483}
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: +gDTX8lJnP8fzq52/onJ2A3OcxdPAhFr71Lu81ECwgg=
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:40.546 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:40
+17:22:41.148 [main] INFO com.huobi.common.api.HbdmClient - 获取用户账户信息{"status":"ok","data":[{"symbol":"BTC","margin_balance":0,"margin_position":0,"margin_frozen":0,"margin_available":0,"profit_real":0,"profit_unreal":0,"risk_rate":null,"withdraw_available":0,"liquidation_price":null,"lever_rate":20}],"ts":1542014561114}
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: 80TOZ5ytJTlZ9TaxYv6xcbeX+U+VdsHaKAVIrZBaf8I=
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:41.150 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:41
+17:22:41.709 [main] INFO com.huobi.common.api.HbdmClient - 获取用户持仓信息{"status":"ok","data":[],"ts":1542014561676}
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: ROegzsNWDsxQtPSgwzh5cl+iOCkEehhajW63/HybOeI=
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:41.711 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:41
+17:22:42.276 [main] INFO com.huobi.common.api.HbdmClient - 合约下单返回{"status":"error","err_code":1047,"err_msg":"Insufficient margin available. ","ts":1542014562240}
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: knqxr/10hnsvZmWtxQId7NNogkx2VR/hGmUAlvBJtfQ=
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:42.280 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:42
+17:22:42.869 [main] INFO com.huobi.common.api.HbdmClient - 批量下单返回{"status":"ok","data":{"errors":[{"index":1,"err_code":1014,"err_msg":"This contract doesnt exist."},{"index":2,"err_code":1014,"err_msg":"This contract doesnt exist."}],"success":[]},"ts":1542014562836}
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: iXgJ52Us00/UGxzwFwOvw7MLEqV7Hb+4lVqVndAT4sk=
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:42.871 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:42
+17:22:43.438 [main] INFO com.huobi.common.api.HbdmClient - 合约取消订单{"status":"ok","data":{"errors":[{"order_id":"123556","err_code":1061,"err_msg":"This order doesnt exist."}],"successes":""},"ts":1542014563405}
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: I6ep6oNly/oXGH1Z+eKDorWOgdImWp/RqOrlc63pJIs=
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:43.441 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:43
+17:22:44.007 [main] INFO com.huobi.common.api.HbdmClient - 合约全部撤单{"status":"error","err_code":1051,"err_msg":"No orders to cancel.","ts":1542014563970}
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: 8SG2Np+PCDmPWLjyUBBuai6Zpsc9DBPa5RpXJWhwUK0=
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:44.009 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:44
+17:22:44.569 [main] INFO com.huobi.common.api.HbdmClient - 获取合约订单信息{"status":"error","err_code":1017,"err_msg":"Abnormal service. Please try again later.","ts":1542014564533}
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: MDkGNMGHg5krKLCjm1rC0Dgk5n0y1QAI4oTFkZPL4bw=
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:44.571 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:44
+17:22:45.113 [main] INFO com.huobi.common.api.HbdmClient - 获取订单明细信息{"status":"error","err_code":1002,"err_msg":"Query exception. Please try again later.","ts":1542014565082}
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: kNJ4mfSKwkEkoPcV5bmcobf3yC+ZvjFXNzBMds6xKpg=
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:45.115 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:45
+17:22:45.703 [main] INFO com.huobi.common.api.HbdmClient - 获取合约当前未成交委托{"status":"ok","data":{"orders":[],"total_page":1,"current_page":1,"total_size":0},"ts":1542014565671}
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature - Dump parameters:
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureVersion, value: 2
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature -   key: AccessKeyId, value: 032160ce-3e4223e2-c3ff772f-c87c1
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Signature, value: j1sDSmS97cWThT1EH+wsR5/lsYf8sl78RueORmeHnw8=
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature -   key: SignatureMethod, value: HmacSHA256
+17:22:45.707 [main] DEBUG com.huobi.common.util.ApiSignature -   key: Timestamp, value: 2018-11-12T09:22:45
+17:22:46.301 [main] INFO com.huobi.common.api.HbdmClient - 获取合约历史委托{"status":"ok","data":{"orders":[],"total_page":0,"current_page":1,"total_size":0},"ts":1542014566267}
