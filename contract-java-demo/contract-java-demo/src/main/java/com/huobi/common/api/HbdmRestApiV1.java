@@ -249,9 +249,8 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 	}
 
 	public String futureContractBatchorder(List<Order> orders) throws HttpException, IOException {
-		Map<String, String> params = new HashMap<>();
-		params.put("orders_data", JSON.toJSONString(orders));
-		System.out.println(JSON.toJSONString(orders));
+		Map<String, Object> params = new HashMap<>();
+		params.put("orders_data", orders);
 		String res = HbdmHttpClient.getInstance().call(api_key, secret_key, "POST", url_prex + HUOBI_FUTURE_CONTRACT_BATCHORDER,
 				params, new HashMap<>());
 		return res;
