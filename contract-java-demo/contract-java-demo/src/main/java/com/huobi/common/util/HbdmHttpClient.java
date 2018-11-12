@@ -144,7 +144,7 @@ public class HbdmHttpClient {
 		try {
 			Request.Builder builder = null;
 			if ("POST".equals(method)) {
-				RequestBody body = RequestBody.create(JSON_TYPE, JsonUtil.writeValue(object));
+				RequestBody body = RequestBody.create(JSON_TYPE, JSON.toJSONString(object));
 				builder = new Request.Builder().url(uri + "?" + toQueryString(params)).post(body);
 			} else {
 				builder = new Request.Builder().url(uri + "?" + toQueryString(params)).get();
