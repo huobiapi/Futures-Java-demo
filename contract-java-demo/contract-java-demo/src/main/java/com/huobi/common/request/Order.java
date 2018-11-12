@@ -1,16 +1,23 @@
 package com.huobi.common.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Order {
 
 	public String symbol;
+	@JSONField(name = "contract_type")
 	public String contractType;
-	public String contractCode;
+	@JSONField(name = "client_order_id")
 	public String clientOrderId;
+	@JSONField(name = "contract_code")
+	public String contractCode;
 	public String price;
 	public String volume;
 	public String direction;
 	public String offset;
+	@JSONField(name = "lever_rate")
 	public String leverRate;
+	@JSONField(name = "order_price_type")
 	public String orderPriceType;
 
 	public Order(String symbol, String contractType, String contractCode, String clientOrderId, String price,
