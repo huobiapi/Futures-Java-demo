@@ -240,7 +240,7 @@ public interface IHbdmRestApi {
 	 * @throws HttpException
 	 * @throws IOException
 	 */
-	public String futureContractOrderInfo(String orderId, String clientOrderId,String symbol) throws HttpException, IOException;
+	public String futureContractOrderInfo(String orderId, String clientOrderId,String symbol,String orderType) throws HttpException, IOException;
 
 	/**
 	 * 获取订单明细信息
