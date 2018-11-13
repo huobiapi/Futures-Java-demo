@@ -283,7 +283,7 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 		return res;
 	}
 
-	public String futureContractOrderInfo(String orderId, String clientOrderId,String symbol) throws HttpException, IOException {
+	public String futureContractOrderInfo(String orderId, String clientOrderId,String symbol,String orderType) throws HttpException, IOException {
 		Map<String, String> params = new HashMap<>();
 		if (!StringUtils.isEmpty(orderId)) {
 			params.put("order_id", orderId);
@@ -294,6 +294,9 @@ public class HbdmRestApiV1 implements IHbdmRestApi {
 		if (!StringUtils.isEmpty(symbol)) {
 			params.put("symbol", symbol);
 		}
+		if (!StringUtils.isEmpty(symbol)) {
+			params.put("order_type", orderType);
+		}	
 		String res = HbdmHttpClient.getInstance().call(api_key, secret_key, "POST",
 				url_prex + HUOBI_FUTURE_ORDER_INFO, params, new HashMap<>());
 		return res;
