@@ -90,7 +90,7 @@ public class HbdmClient {
 		logger.info("合约全部撤单" + contractCancelall);
 
 		// 获取合约订单信息
-		String contractOrderInfo = futurePostV1.futureContractOrderInfo("4", "","BTC");
+		String contractOrderInfo = futurePostV1.futureContractOrderInfo("4", "","BTC","1");
 		logger.info("获取合约订单信息" + contractOrderInfo);
 
 		// 获取订单明细信息
