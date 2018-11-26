@@ -14,7 +14,6 @@
     </parent>
 
     <modules>
-     
         <module>contract-java-demo</module>
     </modules>
 
