@@ -18,7 +18,7 @@ public class HbdmClient {
 		/**
 		 * get请求无需发送身份认证,通常用于获取行情，市场深度等公共信息
 		 */
-		String api_key = ""; // huobi申请的apiKey
+		String api_key = ""; // huobi申请的apiKey,API调试过程中有问题或者有疑问可反馈微信号shaoxiaofeng1118
 		String secret_key = ""; // huobi申请的secretKey
 		String url_prex = "https://api.hbdm.com";//火币api接口地址https://api.hbdm.com
 		IHbdmRestApi futureGetV1 = new HbdmRestApiV1(url_prex);
