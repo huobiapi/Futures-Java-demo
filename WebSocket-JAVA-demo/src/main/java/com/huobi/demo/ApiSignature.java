@@ -75,7 +75,7 @@ public class ApiSignature {
 			String value = entry.getValue();
 			sb.append(key).append('=').append(urlEncode(value)).append('&');
 		}
-		// 删除最好的 `&`
+		// 删除最后的 `&`
 		sb.deleteCharAt(sb.length() - 1);
 		// 签名:
 		Mac hmacSha256 = null;

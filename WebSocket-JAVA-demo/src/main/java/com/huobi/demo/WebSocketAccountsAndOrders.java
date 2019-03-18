@@ -69,7 +69,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
      * 发送异常处理
      */
     public void onError(Exception arg0) {
-//    TODO 异常处理
+//     异常处理
         String message = "";
         try {
             message = new String(arg0.getMessage().getBytes(), "UTF-8");
@@ -97,7 +97,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     public void onMessage(ByteBuffer bytes) {
 
         try {
-//  TODO  可添加自定义消息处理
+//    可添加自定义消息处理
 //    接收服务器信息 并进行解压
             String message = new String(ZipUtil.decompress(bytes.array()), "UTF-8");
             System.out.println(message);
@@ -127,9 +127,9 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
                     }
                 } else if ("sub".equals(op)) {
                     if (errCode == 0) {
-                       //sendUnSub("orders.eth", "12123");
+                       sendUnSub("orders.eth", "12123");
                     }
-                    //TODO  结束的服务器消息处理 message 为接收到消息
+                    //  结束的服务器消息处理 message 为接收到消息
                     log.info(message);
                 }else if ("notify".equals(op)) {
                     //这里接收到订单的推送消息，做业务处理
