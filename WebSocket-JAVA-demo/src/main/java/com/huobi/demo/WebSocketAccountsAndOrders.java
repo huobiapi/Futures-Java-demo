@@ -51,21 +51,6 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
      */
     public void onOpen(ServerHandshake shake) {
         addAuth();
-//        ExecutorService executorService = Executors.newFixedThreadPool(5);
-//        for (int i = 0; i < 5; i++) {
-//            final int k = i;
-//            log.info("启动认证线程:" + k);
-//            executorService.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Thread.currentThread().setName("test#" + k);
-//                    addAuth();
-//                }
-//
-//            });
-//        }
-
-
     }
 
     @Override
@@ -142,10 +127,13 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
                     }
                 } else if ("sub".equals(op)) {
                     if (errCode == 0) {
-                        //sendUnSub("orders.eth", "12123");
+                       //sendUnSub("orders.eth", "12123");
                     }
                     //TODO  结束的服务器消息处理 message 为接收到消息
                     log.info(message);
+                }else if ("notify".equals(op)) {
+                    //这里接收到订单的推送消息，做业务处理
+                    log.info("接收到订单的推送消息报文:"+message);
                 }
             }
         } catch (CharacterCodingException e) {
