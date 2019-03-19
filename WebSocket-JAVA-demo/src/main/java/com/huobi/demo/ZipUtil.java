@@ -8,7 +8,7 @@ public class ZipUtil {
 
 	/**
 	 * 解压客户端发来的程序
-	 *
+	 * Unzip the program from the client-ends
 	 * @param depressData
 	 * @return
 	 * @throws Exception

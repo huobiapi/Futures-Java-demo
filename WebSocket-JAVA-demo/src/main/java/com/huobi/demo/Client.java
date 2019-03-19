@@ -14,9 +14,11 @@ public class Client {
 
     /**
      * 创建连接
+     * Create connection
      */
     public void connect(WebSocketClient ws) {
         //进行连接
+    	//Connecting
         ws.connect();
     }
 

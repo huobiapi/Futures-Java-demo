@@ -26,9 +26,7 @@ public class ApiSignature {
 	public static String timestamp = "Timestamp";
 	public static String signature = "Signature";
 	/**
-	 * API 签名， 签名标准：
-	 * <p>
-	 * http://docs.aws.amazon.com/zh_cn/general/latest/gr/signature-version-2.html
+	 * API 签名， 签名标准： API Signature, the standard
 	 */
 
 	static final DateTimeFormatter DT_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss");
@@ -36,6 +34,7 @@ public class ApiSignature {
 
 	/**
 	 * 添加参数AccessKeyId、时间戳、SignatureVersion、SignatureMethod、Signature。
+	 * SignatureMethod、Signature。 Add parameter of AccessKeyId, Timestamp, SignatureVersion, SignatureMethod, Signature.
 	 *
 	 * @param accessKey
 	 *            AppKeyId.
@@ -43,10 +42,13 @@ public class ApiSignature {
 	 *            AppKeySecret.
 	 * @param method
 	 *            请求方法 ，"GET" or "POST"
+	 *             Request method:"GET" or "POST"
 	 * @param host
-	 *            请求地址，example "be.huobi.com"
+	 *            请求地址，example "wss://api.hbdm.com" 
+	 *            Request address example:"wss://api.hbdm.com"
 	 * @param uri
-	 *            请求路径 path ，example "/v1/api/info"
+	 *            请求路径 path ，example: "/notification" 
+	 *            Request path example:"/notification"
 	 * @param params
 	 *            the original parameters， save as Key-Value ，Don't encode Value
 	 */
@@ -54,14 +56,18 @@ public class ApiSignature {
 			Map<String, String> params) {
 		StringBuilder sb = new StringBuilder(1024);
 
-		// 1 请求方法 (GET or POST) 在后边加上`\n`.
+		// 1.请求方法 (GET or POST) 在后边加上`\n`.
+		// 1。Request method (GET or POST) appending '\n' after it
 		sb.append(method.toUpperCase()).append('\n')
 				// 2. 小写的host 在后边加上 `\n`.
+				// 2.Lowercase host appending '\n' after it.
 				.append(host.toLowerCase()).append('\n')
 				// 3. 请求路径, 在后边加上 `\n`.
+				// 3. Request path, appending '\n' after it.
 				.append(uri).append('\n');
 
 		// 4.将签名按ASCII 排名
+		// 4. Rank the signature according to ASCII
 		params.remove(signature);
 		params.put(accessKeyId, accessKey);
 		params.put(signatureVersion, signatureVersionValue);
@@ -69,6 +75,7 @@ public class ApiSignature {
 		params.put(timestamp, gmtNow());
 
 		// 按照上面的顺序，将每个参数与字符“&”连接。
+		// Following the sequence above, link each parameter and string with "&"
 		SortedMap<String, String> map = new TreeMap<>(params);
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();
@@ -76,8 +83,10 @@ public class ApiSignature {
 			sb.append(key).append('=').append(urlEncode(value)).append('&');
 		}
 		// 删除最后的 `&`
+		// Delete the last '&'
 		sb.deleteCharAt(sb.length() - 1);
 		// 签名:
+		// Signature:
 		Mac hmacSha256 = null;
 		try {
 			hmacSha256 = Mac.getInstance(signatureMethodValue);
@@ -92,19 +101,22 @@ public class ApiSignature {
 		byte[] hash = hmacSha256.doFinal(payload.getBytes(StandardCharsets.UTF_8));
 
 		// 获取签名，并进行Base64编码
+		// Acquire the signature and encode it with Base64 encoder
 		String actualSign = Base64.getEncoder().encodeToString(hash);
 
 		// 将签名放入params
+		// Put signature into params
 		params.put(signature, actualSign);
 
 	}
 
 	/**
-	 * 使用标准的URL编码。+。
+	 * 使用标准的URL编码
+	 *  Encode with standard URL encoder
 	 *
-	 * @param s
-	 *            string
+	 * @param s string
 	 * @return 编码结果
+	 * @return return coding result
 	 */
 	public static String urlEncode(String s) {
 		try {
@@ -115,7 +127,8 @@ public class ApiSignature {
 	}
 
 	/**
-	 * 返回秒数
+	 * 返回秒数 
+	 * Return epoch second
 	 */
 	long epochNow() {
 		return Instant.now().getEpochSecond();

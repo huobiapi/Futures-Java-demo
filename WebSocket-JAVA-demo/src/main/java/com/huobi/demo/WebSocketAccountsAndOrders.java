@@ -33,6 +33,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
     /**
      * sub请求的topic 包含 accounts，orders.*等
+     * Topic of sub request includes accounts, orders.* etc..
      */
     private String aOTopic = "orders.eth";
 
@@ -48,6 +49,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     @Override
     /**
      * 建立连接
+     * Build connection
      */
     public void onOpen(ServerHandshake shake) {
         addAuth();
@@ -56,6 +58,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     @Override
     /**
      * 此处不需要操作
+     * No operation here
      */
     public void onMessage(String arg0) {
         if (arg0 != null) {
@@ -67,9 +70,11 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     @Override
     /**
      * 发送异常处理
+     *  Send exception handling
      */
     public void onError(Exception arg0) {
 //     异常处理
+// 	   Exception handling    	
         String message = "";
         try {
             message = new String(arg0.getMessage().getBytes(), "UTF-8");
@@ -83,6 +88,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     @Override
     /**
      * 关闭连接处理
+     * Close connection handling
      */
     public void onClose(int arg0, String arg1, boolean arg2) {
 //    TODO 关闭连接处理
@@ -93,15 +99,19 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
     @Override
     /**
      * 接收服务器信息
+     * Receive infomation from server
      */
     public void onMessage(ByteBuffer bytes) {
 
         try {
 //    可添加自定义消息处理
+//	  Custom message handling can be added        	
 //    接收服务器信息 并进行解压
+//	  Receive server information and decompress
             String message = new String(ZipUtil.decompress(bytes.array()), "UTF-8");
             System.out.println(message);
 //    将信息转为放入JSONObject
+//	  Convert information into JSONObject            
             JSONObject jsonObject = JSONObject.parseObject(message);
 
             String op = jsonObject.getString("op");
@@ -116,13 +126,15 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
                 } else if ("auth".equals(op)) {
                     //鉴权结果
-
+                	//Result of authentication
                     if (errCode != 0) {
                         //鉴权失败打印信息
+                    	//Authentication failure and print the info
                         log.info(message);
                     } else {
 
                         //鉴权成功发送sub 请求
+                    	//successful authentication sending sub request
                         sendSub(aOTopic, "12123");
                     }
                 } else if ("sub".equals(op)) {
@@ -130,9 +142,11 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
                        sendUnSub("orders.eth", "12123");
                     }
                     //  结束的服务器消息处理 message 为接收到消息
+                    //	Server info handle message as receiving info
                     log.info(message);
                 }else if ("notify".equals(op)) {
                     //这里接收到订单的推送消息，做业务处理
+                	//Receive order push and do operation processing
                     log.info("接收到订单的推送消息报文:"+message);
                 }
             }
@@ -146,6 +160,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
     /**
      * 发送账户订单请求鉴权
+     * Send account order authentication request
      */
     public void addAuth() {
         Map<String, String> map = new HashMap<>();
@@ -154,6 +169,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
             String theHost = uri.getHost() + ":" + uri.getPort();
             //组合签名map
+            //Combined signature map
             as.createSignature(accessKey, secretKey, "GET", "api.hbdm.com", "/notification", map);
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,7 +186,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
     /**
      * 发送账户订单sub请求
-     *
+     * Send account order sub request
      * @param topic 订阅topic
      * @param cid   标识
      */
@@ -196,9 +212,9 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
     /**
      * 发送账户订单取消订阅发送unsub请求
-     *
-     * @param topic unsub请求topic
-     * @param cid   标识
+     * Send account order unsub request
+     * @param topic unsub请求topic、 topic unsub request topic
+     * @param cid   标识、 cid identifying
      */
     public void sendWsUnSubSuccess(String topic, String cid) {
 
@@ -213,7 +229,7 @@ public class WebSocketAccountsAndOrders extends WebSocketClient {
 
     /**
      * 发送账户订单req请求
-     *
+     * Send account order req request
      * @param topic
      * @param orderId
      * @param symbol
