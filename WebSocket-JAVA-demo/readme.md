@@ -1,11 +1,11 @@
-## 环境要求
+## Environment Requiremen
 jdk 1.8
 
-## 运行  
+## Run  
 
-1.先修改application.properties中的accessKey，secretKey
+1.Firstly, change the accessKey and secretKey under directory application.properties
 
-cd 项目路径
+cd path
 
 mvn clean package -Dmaven.test.skip=true
 
@@ -16,23 +16,22 @@ java -jar WebSocket-JAVA-demo-1.jar
 
 
 
-# application.properties参数说明
-| 名称| 说明|
+# application.properties Parameters Specifications
+| Name| Specification|
 |----|----|
-|accessKey |用户accessKey,需要填写|
-|    secretKey | 用户secretKey,需要填写|
-|   uri.host      | websocket地址,不需要修改|
-|   uri.protocol  | 协议,不需要修改|
-|    uri.ao.path     |  账户及订单请求路径,不需要修改|
-|    uri.market.path     |  账户及订单请求路径,不需要修改|
-|    uri.port     |  端口号,不需要修改|
+|accessKey |Users need to put in accessKey|
+|    secretKey | Users need to put in secretKey|
+|   uri.host      | websocket address, no need of modification|
+|   uri.protocol  | agreement, no need of modification|
+|    uri.ao.path     |  account and order request path, no need of modification|
+|    uri.market.path     |  account and order request path, no need of modification|
+|    uri.port     |  port number, no need of modification|
 
 
-# 相关说明
+# Supplements
 ```
-项目中
-WebSocketAccountsAndOrders用于请求订单及账户信息
-WebSocketMarket用于请求market信息
+Project related:
+WebSocketAccountsAndOrders is used to request order and account information
 ```
 
 
