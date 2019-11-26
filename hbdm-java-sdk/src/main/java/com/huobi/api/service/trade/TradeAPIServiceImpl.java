@@ -16,7 +16,7 @@ import java.util.Map;
 public class TradeAPIServiceImpl implements TradeAPIService {
 
 
-    String api_key = ""; // huobi申请的apiKey,API调试过程中有问题或者有疑问可反馈微信号shaoxiaofeng1118
+    String api_key = ""; // huobi申请的apiKey
     String secret_key = ""; // huobi申请的secretKey
     String url_prex = "https://api.hbdm.com";
 
