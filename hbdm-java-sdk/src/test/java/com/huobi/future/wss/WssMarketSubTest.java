@@ -128,9 +128,9 @@ public class WssMarketSubTest {
         wssMarketHandle.sub(channels, response -> {
             logger.info("订阅TradeDetail数据用户收到的数据===============:{}", JSON.toJSON(response));
             Long currentTimeMillis = System.currentTimeMillis();
-            MarketDetailSubResponse event = JSON.parseObject(response, MarketDetailSubResponse.class);
-            logger.info("detailEvent的ts为：{},当前的时间戳为：{},时间间隔为：{}毫秒", event.getTs(), currentTimeMillis, currentTimeMillis - event.getTs());
-        });
+            MarketTradeDetailSubResponse event = JSON.parseObject(response, MarketTradeDetailSubResponse.class);
+            logger.info("tradeDetailEvent的ts为：{},当前的时间戳为：{},时间间隔为：{}毫秒", event.getTs(), currentTimeMillis, currentTimeMillis - event.getTs());
+                  });
         Thread.sleep(Integer.MAX_VALUE);
     }
 
