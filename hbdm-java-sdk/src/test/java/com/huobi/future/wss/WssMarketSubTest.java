@@ -6,6 +6,7 @@ import com.huobi.wss.event.MarketDepthSubResponse;
 import com.huobi.wss.event.MarketDetailSubResponse;
 import com.huobi.wss.event.MarketKLineSubResponse;
 import com.huobi.wss.handle.WssMarketHandle;
+import com.huobi.wss.event.MarketTradeDetailSubResponse;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
